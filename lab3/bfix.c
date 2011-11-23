@@ -30,11 +30,11 @@
        fscanf(file_diff, "%s" ,old);
        fscanf(file_diff, "%s" ,new);       
        fseek(file_txt, (long)jump, SEEK_SET);
-       fwrite(&new, 2, 1, file_txt);
+       fwrite(new, 2, 1, file_txt);
        fseek(file_txt, (long)jump, SEEK_SET);
        fscanf(file_txt, "%s" ,new1); 
        if(m_flag==1)       
-        printf("byte before change: %s after change: %s\n",old,new1);
+        printf("byte before change: %s after change: %s\n",new,new1);
      }
    };
     
