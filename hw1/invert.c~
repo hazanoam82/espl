@@ -1,0 +1,12 @@
+#include <stdio.h>
+
+ int main(int argc, char **argv) {
+   int i;
+   for(i=argc; i>=1; --i) {
+     if ( argv[i]!=NULL)
+	printf("%s ", argv[i]);
+   }
+
+   return 0;
+ }
+
