@@ -1,7 +1,8 @@
-     #include <ctype.h>
-     #include <stdio.h>
-     #include <stdlib.h>
-     #include <unistd.h>
+
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <unistd.h>
+  #include <diff.h>
     
     void help()
     {
@@ -9,48 +10,16 @@
     return;
     };
    
-   char word[10];
-   char jump[10];
-   char old[10];
-   char new[10];
-   char new1[10];
+ 
    FILE *file_txt;
    FILE *file_diff;
    int h_flag = 0;
    int r_flag = 0;
    int m_flag = 0;
    int c;
-   
-   void reverse()
-   {
-     while(feof(file_diff)==0)
-     {
-       fscanf(file_diff, "%s" ,word);
-       fscanf(file_diff, "%s" ,jump);
-       fscanf(file_diff, "%s" ,old);
-       fscanf(file_diff, "%s" ,new);       
-       fseek(file_txt, (long)jump, SEEK_SET);
-       fwrite(new, 2, 1, file_txt);
-       fseek(file_txt, (long)jump, SEEK_SET);
-       fscanf(file_txt, "%s" ,new1); 
-       if(m_flag==1)       
-        printf("byte before change: %s after change: %s\n",new,new1);
-     }
-   };
     
      int main (int argc, char **argv)
      {
-       file_txt = fopen("b.txt", "r+");
-       if(!file_txt)
-       {
-         printf("Error: could not open file b!\n");
-       }
-       
-       file_diff = fopen("all.diff", "rt");
-       if(!file_diff)
-       {
-         printf("Error: could not open file all.diff!\n");
-       }
        opterr = 0;
        while ((c = getopt (argc, argv, "hrm::")) != -1)
          switch (c)
@@ -67,14 +36,59 @@
            default:
              abort ();
            }
+      if (!(file_txt = fopen(argv[optind],"r+"))) {
 
-       if(h_flag==1)
-         help();
-       if(r_flag==1)
-         reverse();
+        printf("bad input file name\n");
+
+        return;
+
+       }
+
+      if (!(file_diff = fopen(argv[optind+1],"r"))) {
+
+        printf("bad diff file name\n");
+
+        return;
+      }
+      
+    char line[128];
+
+    int diffNum=0;
+ 
+    struct diff current;
+
+    while (fgets(line,128,file_diff) ) {
+
+      printf("read diff line: %s\n",line);
+
+      parsediff(line,&current);
+
+      fseek(file_txt,current.offset,SEEK_SET);
+
+      char value[1];
+
+      printf("new: %c  old: %c \n", current.new, current.old);
+
+      if (r_flag==1) {    
+ 
+        fputc(-current.new,file_txt);
+
+      }
+
+      else
+
+        fputc(-current.old,file_txt);
+
+
+      if (m_flag==1)
+
+        printf("a change applied at byte %ld\n", current.offset);    
+
+      }
        
-       fclose(file_txt);
-       fclose(file_diff);
+      fclose(file_txt);
+       
+      fclose(file_diff);
        
        return 0;
      }
