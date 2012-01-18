@@ -1,4 +1,4 @@
-
-int puts(char *s) {
-  return write(1,s,length(s));
+void puts(char *s){
+  int len=length(s);
+  write(1, s,len);
 }

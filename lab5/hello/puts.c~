@@ -1,6 +1,0 @@
-#include <write.asm>
-
-void puts(char *s) {
-  write(1,length(s),s);
-}
- 

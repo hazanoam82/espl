@@ -6,17 +6,18 @@
 
 .PHONY: clean all
 
-all: ahalan
+all: bcmp
 
-ahalan: start.o main.o ahalan.o puts.o write.o length.o
+bcmp: start.o bcmp.o fclose.o fopen.o length.o puts.o readchar.o main.o
 	ld -melf_i386 -g -o $@ $^
 
-ahalan.o: ahalan.asm
 start.o: start.asm
-main.o: main.c
-write.o: write.asm
-puts.o: puts.c
+bcmp.o: bcmp.c
+fclose.o: fclose.asm
+fopen.o: fopen.asm
 length.o: length.c
-
+puts.o: puts.asm
+readchar.o: readchar.asm
+main.o: main.c
 clean:
 	rm *.o ahalan

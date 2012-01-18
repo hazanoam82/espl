@@ -3,12 +3,12 @@ section .text
 
 extern main
 _start:
-	mov eax, esp
-	add eax,4
-	push eax
-	push DWORD [esp+4]
+	mov	eax, esp
+	add	eax,4
+	push	eax	
+	push	DWORD [esp+4]
 	call	main
-	add esp, 8
+	add	esp, 8
         mov     ebx,eax
 	mov	eax,1
 	int 0x80

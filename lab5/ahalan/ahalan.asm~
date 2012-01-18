@@ -3,13 +3,14 @@ section	.text
 	extern puts
 
 ahalan:					;void ahalan()
-	push ebp
-	mov ebp, esp
-	push	msg	;message to write
-	call	puts
-	;add esp, 8
+	push	ebp
+	mov	ebp, esp
+	push	msg
+	call puts
+	add	esp, 8
 	ret
 
 section	.data
 
-msg	db	'ahalan!',0xa,0	;our dear string
+msg	db	'ahalan!ahalan!',0xa,0	;our dear string
+len equ $ - msg
