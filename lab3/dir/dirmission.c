@@ -64,7 +64,7 @@ int main(int argc, char **argv)
          *
          * Open a directory stream to argv[1] and make sure
          * it's a readable and valid (directory) */
-        if ((dip = opendir(argv[1])) == NULL)
+        if ((dip = opendir(argv[optind])) == NULL)
         {
                 perror("opendir");
                 return 0;
