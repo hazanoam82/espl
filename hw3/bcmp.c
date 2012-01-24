@@ -5,10 +5,10 @@
 int bcm(char* frame1, char* frame2)
 {
   FILE *f1, *f2;
-  char *buffer1;
-  char *buffer2;
+
   unsigned long fileLen1, fileLen2;
   int n1, n2;
+  unsigned long i=0;
   
   
   f1=fopen(frame1, "rb"); 
@@ -27,49 +27,12 @@ int bcm(char* frame1, char* frame2)
     fclose(f2);
     return -1;
   }
- /* 
-  fseek(f1, 0, SEEK_END);
-  fileLen1=ftell(f1);
-  fseek(f1, 0, SEEK_SET);
-  
-  
-  fseek(f2, 0, SEEK_END);
-  fileLen2=ftell(f2);
-  fseek(f2, 0, SEEK_SET);
-  
-  buffer1=(char *)malloc(fileLen1+1);
-        if (!buffer1)
-        {
-                fprintf(stderr, "Memory error!");
-                                fclose(f1);
-                return -1;
-        }
-        
-  buffer2=(char *)malloc(fileLen2+1);
-        if (!buffer2)
-        {
-                fprintf(stderr, "Memory error!");
-                                fclose(f2);
-                return -1;
-        }
-  
- fread(buffer1, fileLen1, 1, f1);
- fread(buffer2, fileLen2, 1, f1);
  
-  int i;
-  for(i = 0;i < fileLen1+1;i++){
-  
-  
-    n1 = buffer1[i];
-    n2 = buffer2[i];
-    */
  n1 = (int)fgetc(f1);
  n2 = (int)fgetc(f2);
- int i = 0;
  while (n1!=EOF || n2!=EOF){
    if (n1 != n2){
-      printf("byte %d ",i);
-      printf("%d %d\n",n1, n2);
+      printf("byte %lu +%x -%x\n", i,n1,n2);
       break;
     }
     else{
@@ -81,8 +44,7 @@ int bcm(char* frame1, char* frame2)
     
   fclose(f1);
   fclose(f2);
- // free(buffer1);
- // free(buffer2);
+
   
   return 0;
 }
